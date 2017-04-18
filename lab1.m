@@ -1,6 +1,6 @@
 close all;
 
-x = csvread('X.csv');
+x = csvread('temp.csv');
 
 M_min = min(x);
 M_max = max(x);
@@ -13,11 +13,16 @@ fprintf('Min = %.2f\nMax = %.2f\nR = %.2f\n', M_min, M_max, R);
 fprintf('MX = %f\nDX = %f\n', MX, DX);
 
 % определение кол-ва промежутков разбиения
-J_m = floor(log2(length(x))) + 2 ;
-fprintf('колличество промежутков:  %d\n',J_m);
+J_m = fix(log2(length(x))) + 2 ;
 % упорядочение
 [y1, x1] = hist(x, J_m);
 % нормирование
+
+for i=1:length(x1)
+    fprintf('%d. промежуток: %.2f ; %.2f колличество: %d \n',i,x1(i)-R/(2*J_m),x1(i)+R/(2*J_m),y1(i));
+    last = x1(i);
+end
+
 y1 = y1/(sum(y1)*(x1(2) - x1(1)));
 step = sigma/100;
 
